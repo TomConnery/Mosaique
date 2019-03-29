@@ -1,8 +1,6 @@
-repositories {
-    jcenter()
-}
 
 
+apply from: "repositories.gradle"
 apply from: "plugins.gradle"
 apply from: "dependencies.gradle"
 
