@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Mosaique.iml" filepath="$PROJECT_DIR$/Mosaique.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mosaique.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Mosaique.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mosaique.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Mosaique.test.iml" />
+    </modules>
+  </component>
+</project>
