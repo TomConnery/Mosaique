@@ -1,0 +1,12 @@
+//https://guides.gradle.org/building-java-9-modules/
+
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}

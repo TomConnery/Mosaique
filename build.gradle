@@ -1,8 +1,15 @@
-
-
 apply from: "repositories.gradle"
 apply from: "plugins.gradle"
 apply from: "dependencies.gradle"
+
+
+ext.moduleName = "Mosaique"
+group = 'com.github.TomConnery'
+
+sourceCompatibility = 1.10
+targetCompatibility = 1.10
+
+apply from: "module-support.gradle"
 
 
 sourceSets {

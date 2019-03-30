@@ -2,6 +2,7 @@ package de.tomconn.mosaique.interfaces.mosaique;
 
 import de.tomconn.mosaique.interfaces.KeyModule;
 import de.tomconn.mosaique.interfaces.Mosaique;
+import de.tomconn.web.annotation.HasSingle;
 
 import java.util.*;
 
@@ -23,8 +24,10 @@ public interface MosaiqueBulkMethods {
      * module was registered.</p>
      * <p>Only modules which were unregistered are contained within the returned map.</p>
      *
+     * @see Mosaique#unregisterModule(KeyModule)
      * @since 0.0.1
      */
+    @HasSingle
     Optional< Map< KeyModule< ? >, List< String > > > unregisterModules(Collection< KeyModule< ? > > modules);
 
 
@@ -38,7 +41,8 @@ public interface MosaiqueBulkMethods {
      * @see Mosaique#getModuleForKey(String)
      * @since 0.0.1
      */
-    Map< String, Optional< List< KeyModule< ? > > > > getModulesForKeys(Set< String > keys);
+    @HasSingle
+    Map< String, Optional< List< KeyModule< ? > > > > getModulesForKeys(Collection< String > keys);
 
 
     /**
@@ -52,7 +56,8 @@ public interface MosaiqueBulkMethods {
      * @see Mosaique#registerModuleForKey(String, KeyModule)
      * @since 0.0.1
      */
-    Map< Boolean, String > registerModules(Map< String, KeyModule > modules);
+    @HasSingle
+    Map< Boolean, String > registerModulesForKeys(Map< String, KeyModule > modules);
 
 
     /**
@@ -65,7 +70,38 @@ public interface MosaiqueBulkMethods {
      * @see Mosaique#unregisterKey(String)
      * @since 0.0.1
      */
+    @HasSingle
     Map< String, Optional< KeyModule > > unregisterKeys(Collection< String > keys);
+
+
+    /**
+     * Collects all keys for each entry of the passed collection and returns it in the form of a {@link Map}.
+     *
+     * @param modules the modules
+     *
+     * @return a {@link Map Mapping} between the respective entries in the passed collection and a respective return
+     * value from {@link Mosaique#getKeysForModule(KeyModule)}
+     *
+     * @see Mosaique#getKeysForModule(KeyModule)
+     * @since 0.0.1
+     */
+    @HasSingle
+    Map< KeyModule< ? >, Optional< List< String > > > getKeysForModules(Collection< KeyModule< ? > > modules);
+
+
+    /**
+     * Attempts to forcibly register the passed modules under the respective keys
+     *
+     * @param keyModuleMap a map, consisting of a key and an associated {@link KeyModule} which shall be registered
+     *                     under its associated key
+     *
+     * @return a {@link Map} consisting of keys and a boolean which depicts whether or not the registration was
+     * successful
+     *
+     * @see Mosaique#forceRegister(String, KeyModule)
+     */
+    @HasSingle
+    Map< String, Boolean > forceRegisters(Map< String, KeyModule< ? > > keyModuleMap);
 
 
 }

@@ -7,3 +7,5 @@
 *.iml
 out
 gen
+gradlew
+gradlew.bat
