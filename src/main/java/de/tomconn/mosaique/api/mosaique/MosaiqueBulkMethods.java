@@ -1,17 +1,23 @@
-package de.tomconn.mosaique.interfaces.mosaique;
+package de.tomconn.mosaique.api.mosaique;
 
-import de.tomconn.mosaique.interfaces.KeyModule;
-import de.tomconn.mosaique.interfaces.Mosaique;
+import de.tomconn.mosaique.api.KeyModule;
+import de.tomconn.mosaique.api.Mosaique;
+import de.tomconn.web.annotation.HasBulk;
 import de.tomconn.web.annotation.HasSingle;
 
+import javax.json.JsonStructure;
 import java.util.*;
 
 /**
  * Defines bulk methods for {@link Mosaique}
  *
+ * @param <M> the return type of {@link KeyModule#parse(JsonStructure)}
+ *
+ * @see Mosaique
+ * @see HasBulk
  * @since 0.0.1
  */
-public interface MosaiqueBulkMethods {
+public interface MosaiqueBulkMethods< M > {
 
     /**
      * Attempts to unregister the passed modules
@@ -28,7 +34,7 @@ public interface MosaiqueBulkMethods {
      * @since 0.0.1
      */
     @HasSingle
-    Optional< Map< KeyModule< ? >, List< String > > > unregisterModules(Collection< KeyModule< ? > > modules);
+    Optional< Map< KeyModule< ?, M >, List< String > > > unregisterModules(Collection< KeyModule< ?, M > > modules);
 
 
     /**
@@ -42,7 +48,7 @@ public interface MosaiqueBulkMethods {
      * @since 0.0.1
      */
     @HasSingle
-    Map< String, Optional< List< KeyModule< ? > > > > getModulesForKeys(Collection< String > keys);
+    Map< String, Optional< List< KeyModule< ?, M > > > > getModulesForKeys(Collection< String > keys);
 
 
     /**
@@ -86,7 +92,7 @@ public interface MosaiqueBulkMethods {
      * @since 0.0.1
      */
     @HasSingle
-    Map< KeyModule< ? >, Optional< List< String > > > getKeysForModules(Collection< KeyModule< ? > > modules);
+    Map< KeyModule< ?, M >, Optional< List< String > > > getKeysForModules(Collection< KeyModule< ?, M > > modules);
 
 
     /**
@@ -99,9 +105,10 @@ public interface MosaiqueBulkMethods {
      * successful
      *
      * @see Mosaique#forceRegister(String, KeyModule)
+     * @since 0.0.1
      */
     @HasSingle
-    Map< String, Boolean > forceRegisters(Map< String, KeyModule< ? > > keyModuleMap);
+    Map< String, Boolean > forceRegisters(Map< String, KeyModule< ?, M > > keyModuleMap);
 
 
 }
