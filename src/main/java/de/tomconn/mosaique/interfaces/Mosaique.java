@@ -1,17 +1,23 @@
 package de.tomconn.mosaique.interfaces;
 
 import de.tomconn.mosaique.interfaces.mosaique.MosaiqueBulkMethods;
+import de.tomconn.mosaique.interfaces.mosaique.MosaiqueVarargMethods;
 import de.tomconn.web.annotation.HasBulk;
+import de.tomconn.web.annotation.HasVararg;
+import de.tomconn.web.annotation.Single;
 
+import javax.json.JsonObject;
 import java.util.*;
 
 /**
- * <p>A Mosaique is a collection of {@link KeyModule KeyModules}.</p>
+ * <p>A Mosaique is a mapping between {@link String}-based keys and {@link KeyModule KeyModules}.</p>
  * <p>Each module is associated a unique key.</p>
+ *
+ * @param <R></R> The return type of {@link #parse(JsonObject)}
  *
  * @since 0.0.1
  */
-public interface Mosaique {
+public interface Mosaique< R > {
 
     /**
      * Returns a {@link KeyModule} if there was one registered for the passed key
@@ -20,9 +26,12 @@ public interface Mosaique {
      *
      * @return a module if one was present
      *
+     * @see MosaiqueBulkMethods#getModulesForKeys(Collection)
+     * @see MosaiqueVarargMethods#getModulesForKeys(String...)
      * @since 0.0.1
      */
     @HasBulk
+    @HasVararg
     Optional< KeyModule< ? > > getModuleForKey(String key);
 
 
@@ -35,9 +44,11 @@ public interface Mosaique {
      * the module is registered within this instance
      *
      * @see MosaiqueBulkMethods#getKeysForModules(Collection)
+     * @see MosaiqueVarargMethods#getKeysForModules(KeyModule[])
      * @since 0.0.1
      */
     @HasBulk
+    @HasVararg
     Optional< List< String > > getKeysForModule(KeyModule< ? > module);
 
 
@@ -58,16 +69,26 @@ public interface Mosaique {
 
 
     /**
-     * Unregisters a currently present key and returns the possibly placed module.
+     * Unregisters a currently present key and returns the possibly under the key registered module.
      *
      * @param key the key
      *
-     * @return an {@link Optional} containing a module that was possibly registered under the passed key
+     * @return <p>Either:</p>
+     * <br>
+     * <p>an {@link Optional} containing a module that was possibly registered under the passed key - if the passed key
+     * was present</p>
+     * <br>
+     * or
+     * <br>
+     * <br>
+     * <p><i>null</i> - if the passed key was <i>not</i> present</p>
      *
      * @see MosaiqueBulkMethods#unregisterKeys(Collection)
+     * @see MosaiqueVarargMethods#unregisterKeys(String...)
      * @since 0.0.1
      */
     @HasBulk
+    @HasVararg
     Optional< KeyModule< ? > > unregisterKey(String key);
 
 
@@ -76,13 +97,22 @@ public interface Mosaique {
      *
      * @param module the module to unregister
      *
-     * @return a {@link Optional} containing a {@link List} if, and only if, the module was registered under at least
-     * one key, which contains all keys the module was registered under
+     * @return <p>Either:</p>
+     * <br>
+     * <p>an {@link Optional} containing a {@link Collection} of keys under which the respective module was possibly
+     * registered under  - if the module was registered at all</p>
+     * <br>
+     * or
+     * <br>
+     * <br>
+     * <p><i>null</i> - if the module was <i>not</i> registered under any key</p>
      *
      * @see MosaiqueBulkMethods#unregisterModules(Collection)
+     * @see MosaiqueVarargMethods#unregisterModules(KeyModule[])
      * @since 0.0.1
      */
     @HasBulk
+    @HasVararg
     Optional< List< String > > unregisterModule(KeyModule< ? > module);
 
 
@@ -102,5 +132,18 @@ public interface Mosaique {
      */
     @HasBulk
     boolean forceRegister(String key, KeyModule< ? > module);
+
+
+    /**
+     * <p>Parses the passed object and returns an instance of the specified return type.</p>
+     *
+     * @param object an instance of {@link JsonObject}
+     *
+     * @return an object of the return type
+     *
+     * @since 0.0.1
+     */
+    @Single
+    R parse(JsonObject object);
 
 }

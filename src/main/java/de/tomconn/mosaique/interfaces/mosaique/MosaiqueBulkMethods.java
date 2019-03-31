@@ -99,6 +99,7 @@ public interface MosaiqueBulkMethods {
      * successful
      *
      * @see Mosaique#forceRegister(String, KeyModule)
+     * @since 0.0.1
      */
     @HasSingle
     Map< String, Boolean > forceRegisters(Map< String, KeyModule< ? > > keyModuleMap);
